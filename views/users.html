@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+<h2>GMinsta</h2>
+
+<div class="nav-icons">
+<a href="/profile/<%= user._id %>">👤</a>
+<a href="/chat">💬</a>
+<a href="/explore">🔍</a>
+<a href="/users">👥</a>
+</div>
+</div>
+
+<!-- USERS LIST -->
+<div class="users-list">
+<h2>Find People</h2>
+
+<div class="users-grid">
+<% users.forEach(u => { %>
+
+<div class="user-card">
+
+<p><b><%= u.username %></b></p>
+
+<a href="/profile/<%= u._id %>">
+<button>View Profile</button>
+</a>
+
+</div>
+
+<% }) %>
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+<h2>GMinsta</h2>
+
+<div class="nav-icons">
+<a href="/profile/<%= user._id %>">👤</a>
+<a href="/chat">💬</a>
+<a href="/explore">🔍</a>
+<a href="/users">👥</a>
+</div>
+</div>
+
+<!-- CHAT BOX -->
+<div class="chat-box">
+<h2>Chats</h2>
+
+<% if(users.length === 0){ %>
+
+<div style="text-align:center; margin-top:50px; padding: 30px;">
+<h3>No chats yet</h3>
+<p>Follow users to start chatting 💬</p>
+</div>
+
+<% } else { %>
+
+<div>
+<% users.forEach(u => { %>
+
+<div>
+<a href="/chat/<%= u._id %>">
+    <b><%= u.username %></b>
+</a>
+</div>
+
+<% }) %>
+</div>
+
+<% } %>
+</div>
+
+</body>
+</html>

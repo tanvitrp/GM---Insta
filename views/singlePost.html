@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+<h2>GMinsta</h2>
+
+<div class="nav-icons">
+<a href="/profile/<%= user._id %>">👤</a>
+<a href="/chat">💬</a>
+<a href="/explore">🔍</a>
+<a href="/users">👥</a>
+</div>
+</div>
+
+<!-- SINGLE POST -->
+<div class="chat-box" style="max-width: 600px;">
+<p><b><a href="/profile/<%= post.userId._id %>"><%= post.userId.username %></a></b></p>
+
+<p><%= post.caption %></p>
+
+<% if(post.image){ %>
+<img src="/uploads/<%= post.image %>" style="width: 100%; border-radius: 16px;">
+<% } %>
+
+<p>❤️ <b><%= post.likes.length %></b> likes</p>
+
+<a href="/home" class="button-link">← Back to Home</a>
+</div>
+
+</body>
+</html>

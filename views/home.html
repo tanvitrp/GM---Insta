@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+<div class="notification-bar">🔔 You have new activity!</div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+<h2>GMinsta</h2>
+
+<div class="nav-icons">
+<a href="/profile/<%= user._id %>">👤</a>
+<a href="/chat">💬</a>
+<a href="/explore">🔍</a>
+<a href="/users">👥</a>
+<a href="#" onclick="openPostModal(event)">➕</a>
+</div>
+</div>
+
+<!-- STORIES -->
+
+
+<!-- CREATE POST MODAL -->
+<div id="postModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closePostModal()">&times;</span>
+    <h2>Create New Post</h2>
+    <form method="POST" action="/post" enctype="multipart/form-data">
+      <input name="caption" placeholder="Share something..." required>
+      <input type="file" name="image">
+      <button type="submit">Post</button>
+    </form>
+  </div>
+</div>
+
+<!-- EDIT POST MODAL -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeEditModal()">&times;</span>
+    <h2>Edit Post</h2>
+    <form method="POST" id="editForm" enctype="multipart/form-data">
+      <input name="caption" id="editCaption" placeholder="Share something..." required>
+      <input type="file" name="image">
+      <button type="submit">Update</button>
+    </form>
+  </div>
+</div>
+
+
+<!-- FEED -->
+<div class="feed">
+
+<% posts.forEach(p => { %>
+<div class="post">
+
+<p >
+<b>
+<a href="/profile/<%=p.userId._id %>">
+    <%= p.userId.username %>
+    </a>
+</b>
+<% if(p.userId._id.toString() === user._id.toString()) { %>
+<div class="post-menu">
+<button class="post-btn" onclick="openEditModal('<%= p._id %>', '<%= p.caption %>')">✏️</button>
+<a href="/delete/<%= p._id %>" class="post-btn" onclick="return confirm('Delete this post?')">🗑️</a>
+</div>
+<% } %>  
+</p>
+
+
+<p><%= p.caption %></p>
+
+<% if(p.image){ %>
+<img src="/uploads/<%= p.image %>" class="post-img" ondblclick="likeAnimation(this)">
+<% } %>
+
+<div class="actions">
+<a href="/like/<%= p._id %>">❤️</a>
+<span><%= p.likes.length %> likes</span>
+</div>
+
+<form method="POST" action="/comment">
+<input name="commentText" placeholder="Add comment...">
+<input type="hidden" name="postId" value="<%= p._id %>">
+</form>
+
+<div class="comments">
+<% if(p.comments){ %>
+    <% p.comments.forEach(c => { %>
+        <p>💬 <%= c.commentText %></p>
+    <% }) %>
+<% } %>
+</div>
+
+</div>
+<% }) %>
+
+</div>
+
+<script>
+function likeAnimation(img){
+    const heart = document.createElement("div");
+    heart.innerHTML = "❤️";
+    heart.className = "heart";
+    img.parentElement.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 800);
+}
+
+function openPostModal(event) {
+    event.preventDefault();
+    document.getElementById("postModal").style.display = "flex";
+}
+
+function closePostModal() {
+    document.getElementById("postModal").style.display = "none";
+}
+
+function openEditModal(postId, caption) {
+    document.getElementById("editCaption").value = caption;
+    document.getElementById("editForm").action = `/edit/${postId}`;
+    document.getElementById("editModal").style.display = "flex";
+}
+
+function closeEditModal() {
+    document.getElementById("editModal").style.display = "none";
+}
+
+window.onclick = function(event) {
+    const postModal = document.getElementById("postModal");
+    const editModal = document.getElementById("editModal");
+    if (event.target === postModal) {
+        postModal.style.display = "none";
+    }
+    if (event.target === editModal) {
+        editModal.style.display = "none";
+    }
+}
+</script>
+
+</body>
+</html>

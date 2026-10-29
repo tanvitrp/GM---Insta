@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+<h2>GMinsta</h2>
+
+<div class="nav-icons">
+<a href="/profile/<%= user._id %>">👤</a>
+<a href="/chat">💬</a>
+<a href="/explore">🔍</a>
+<a href="/users">👥</a>
+</div>
+</div>
+
+<!-- EXPLORE GRID -->
+<div class="explore-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; padding: 24px 20px; max-width: 1200px; margin: 0 auto;">
+
+<% posts.forEach(p => { %>
+  <% if (p.image) { %>
+    <div class="grid-item" onclick="openPost('<%= p._id %>')">
+      <img src="/uploads/<%= p.image %>">
+    </div>
+  <% } %>
+<% }) %>
+
+</div>
+
+<script>
+function openPost(id){
+    window.location.href = "/post/" + id;
+}
+</script>
+
+</body>
+</html>

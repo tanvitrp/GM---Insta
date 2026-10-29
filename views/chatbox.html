@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+<h2>GMinsta</h2>
+
+<div class="nav-icons">
+<a href="/profile/<%= currentUser._id %>">👤</a>
+<a href="/chat">💬</a>
+<a href="/explore">🔍</a>
+<a href="/users">👥</a>
+</div>
+</div>
+
+<!-- CHAT BOX -->
+<div class="chat-box">
+<h2>Chat with <%= user.username %></h2>
+
+<div>
+
+<% messages.forEach(m => { %>
+
+<p>
+<b>
+<%= m.senderId.toString() === user._id.toString() ? user.username : "You" %>:
+</b>
+<%= m.messageText %>
+</p>
+
+<% }) %>
+
+</div>
+
+<form method="POST" action="/chat">
+<input type="hidden" name="receiverId" value="<%= user._id %>">
+
+<input name="messageText" placeholder="Type message..." required>
+
+<button>Send</button>
+</form>
+
+<a href="/chat">⬅ Back</a>
+</div>
+
+</body>
+</html>

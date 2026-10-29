@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+<h2>GMinsta</h2>
+
+<div class="nav-icons">
+<a href="/profile/<%= user._id %>">👤</a>
+<a href="/chat">💬</a>
+<a href="/explore">🔍</a>
+<a href="/users">👥</a>
+<a href="#" onclick="openPostModal(event)">➕</a>
+</div>
+</div>
+
+<!-- EDIT POST -->
+<div class="chat-box" style="max-width: 600px;">
+<h2>Edit Post</h2>
+
+<form method="POST" enctype="multipart/form-data">
+  <textarea name="caption" placeholder="Edit caption..." required style="min-height: 80px;"><%= post.caption %></textarea>
+  
+  <% if(post.image){ %>
+    <div style="margin: 16px 0;">
+      <p style="font-size: 14px; color: var(--muted);">Current Image:</p>
+      <img src="/uploads/<%= post.image %>" style="max-width: 100%; border-radius: 12px; max-height: 300px;">
+    </div>
+  <% } %>
+  
+  <label style="display: block; margin: 16px 0; font-size: 14px;">
+    Update Image (optional):
+    <input type="file" name="image" style="margin-top: 8px;">
+  </label>
+  
+  <div style="display: flex; gap: 12px;">
+    <button type="submit" style="flex: 1;">Update Post</button>
+    <a href="/home" class="button-link" style="flex: 1; text-align: center;">Cancel</a>
+  </div>
+</form>
+
+</div>
+
+</body>
+</html>

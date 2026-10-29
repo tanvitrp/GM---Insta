@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+<h2>GMinsta</h2>
+
+<div class="nav-icons">
+<a href="/profile/<%= currentUser._id %>">👤</a>
+<a href="/chat">💬</a>
+<a href="/explore">🔍</a>
+<a href="/users">👥</a>
+</div>
+</div>
+
+<div class="profile-wrapper">
+
+<!-- PROFILE HEADER -->
+<div class="profile-header">
+
+<img src="/profile/<%= user.profilePic %>" class="profile-pic">
+
+<div class="profile-info">
+<h2><%= user.username %></h2>
+
+<div class="stats">
+<p><b><%= posts.length %></b> posts</p>
+<p><b><%= user.followers.length %></b> followers</p>
+<p><b><%= user.following.length %></b> following</p>
+</div>
+
+<a href="/follow/<%= user._id %>" class="btn">Follow / Unfollow</a>
+
+<form method="POST" action="/edit-profile" enctype="multipart/form-data">
+<input name="bio" placeholder="Update bio">
+<input type="file" name="profilePic">
+<button>Update</button>
+</form>
+
+</div>
+
+</div>
+
+<hr>
+
+<!-- POSTS GRID -->
+<div class="profile-posts">
+
+<% posts.forEach(p => { %>
+<div class="post-box">
+
+<% if(p.image){ %>
+<img src="/uploads/<%= p.image %>">
+<% } %>
+
+<% if(p.userId._id.toString() === currentUser._id.toString()) { %>
+<div class="post-overlay">
+<button class="overlay-btn" onclick="openEditModal('<%= p._id %>', '<%= p.caption %>')">✏️ Edit</button>
+<button class="overlay-btn delete-btn" onclick="deletePost('<%= p._id %>')">🗑️ Delete</button>
+</div>
+<% } %>
+
+</div>
+<% }) %>
+
+</div>
+
+<!-- EDIT POST MODAL -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeEditModal()">&times;</span>
+    <h2>Edit Post</h2>
+    <form method="POST" id="editForm" enctype="multipart/form-data">
+      <textarea name="caption" id="editCaption" placeholder="Share something..." required style="min-height: 80px;"></textarea>
+      <input type="file" name="image">
+      <button type="submit">Update</button>
+    </form>
+  </div>
+</div>
+
+<script>
+function openEditModal(postId, caption) {
+    document.getElementById("editCaption").value = caption;
+    document.getElementById("editForm").action = `/edit/${postId}`;
+    document.getElementById("editModal").style.display = "flex";
+}
+
+function closeEditModal() {
+    document.getElementById("editModal").style.display = "none";
+}
+
+function deletePost(postId) {
+    if (confirm("Delete this post?")) {
+        window.location.href = `/delete/${postId}`;
+    }
+}
+
+window.onclick = function(event) {
+    const editModal = document.getElementById("editModal");
+    if (event.target === editModal) {
+        editModal.style.display = "none";
+    }
+}
+</script>
